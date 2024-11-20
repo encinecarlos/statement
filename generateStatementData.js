@@ -9,7 +9,7 @@ function generateStatementData(invoice, plays) {
   return statementData;
 
   function enrichPerformance(performance) {
-    const calulator = new PerformanceCalculator(performance, playFor(performance));
+    const calulator = createPerformanceCalculator(performance, playFor(performance));
 
     const result = Object.assign({}, performance);
     result.play = calulator.play;
@@ -36,6 +36,10 @@ function generateStatementData(invoice, plays) {
 
   function totalVolumeCredits(data) {
     return data.performances.reduce((total, perf) => total + perf.volumeCredits, 0);
+  }
+
+  function createPerformanceCalculator(performance, play) {
+    return new PerformanceCalculator(performance, play);
   }
 }
 

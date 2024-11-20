@@ -55,19 +55,19 @@ function statement(invoice, plays) {
   }
 
   function calculateTotalAmount(data) {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += perf.amount;
-    }
-    return result;
+    // let result = 0;
+    // for (let perf of data.performances) {
+    //   result += perf.amount;
+    // }
+    return data.performances.reduce((total, perf) => total + perf.amount, 0);
   }
 
   function totalVolumeCredits(data) {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += perf.volumeCredits;
-    }
-    return result;
+    // let result = 0;
+    // for (let perf of data.performances) {
+    //   result += perf.volumeCredits;
+    // }
+    return data.performances.reduce((total, perf) => total + perf.volumeCredits, 0);
   }
 }
 

@@ -53,21 +53,6 @@ class PerformanceCalculator {
     this.play = play;
   }
 
-  get amount() {
-    let result = 0;
-    switch (this.play.type) {
-      case "tragedy":
-        throw "bad thing";
-      case "comedy":
-        throw "bad thing";
-        break;
-      default:
-        throw new Error(`unknown type: ${this.play.type}`);
-    }
-
-    return result;
-  }
-
   get volumeCredits() {
     let result = 0;
 

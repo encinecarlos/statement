@@ -1,12 +1,22 @@
 function statement(invoice, plays) {
-  return RenderPlainText(invoice, plays);
+  const statementData = {};
+
+  statementData.customer = invoice.customer;
+  statementData.performances = invoice.performances.map(enrichPerformance);
+
+  return RenderPlainText(statementData, plays);
+
+  function enrichPerformance(performance) {
+    const result = Object.assign({}, performance);
+    return result;
+  }
 }
 
 
-function RenderPlainText(invoice, plays) {
-  let result = `Statement for ${invoice.customer}\n`;
+function RenderPlainText(data, plays) {
+  let result = `Statement for ${data.customer}\n`;
   
-  for (let perf of invoice.performances) {
+  for (let perf of data.performances) {
     result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience} seats)\n`;
   }
   
@@ -16,7 +26,7 @@ function RenderPlainText(invoice, plays) {
   
   function calculateTotalAmount() {
     let result = 0;
-    for (let perf of invoice.performances) {
+    for (let perf of data.performances) {
       result += amountFor(perf);
     }
     return result;
@@ -24,7 +34,7 @@ function RenderPlainText(invoice, plays) {
   
   function totalVolumeCredits() {
     let result = 0;
-    for (let perf of invoice.performances) {
+    for (let perf of data.performances) {
       result += volumeCreditsFor(perf);
     }
     return result;
@@ -71,8 +81,8 @@ function RenderPlainText(invoice, plays) {
         function usd(aNumber) {
           return new Intl.NumberFormat("en-US", {
             style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
+            currency: "USD",
+            minimumFractionDigits: 2,
     }).format(aNumber / 100);
   }
 }

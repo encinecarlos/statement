@@ -39,7 +39,11 @@ function generateStatementData(invoice, plays) {
   }
 
   function createPerformanceCalculator(performance, play) {
-    return new PerformanceCalculator(performance, play);
+    switch(play.type) {
+      case "tragedy": return new TragedyCalculator(performance, play);
+      case "comedy": return new ComedyCalculator(performance, play);
+      default: throw new Error(`unknwon type: ${play.type}`); 
+    }
   }
 }
 
@@ -53,11 +57,7 @@ class PerformanceCalculator {
     let result = 0;
     switch (this.play.type) {
       case "tragedy":
-        result = 40000;
-        if (this.performance.audience > 30) {
-          result += 1000 * (this.performance.audience - 30);
-        }
-        break;
+        throw "bad thing";
       case "comedy":
         result = 30000;
         if (this.performance.audience > 20) {
@@ -81,8 +81,19 @@ class PerformanceCalculator {
       result += Math.floor(this.performance.audience / 5);
 
     return result;
-  }
-   
+  } 
 }
+
+class TragedyCalculator extends PerformanceCalculator {
+  get amount() {
+    let result = 40000;
+    if (this.performance.audience > 30) {
+      result += 1000 * (this.performance.audience - 30);
+    }
+
+    return result;
+  }
+}
+class ComedyCalculator extends PerformanceCalculator {}
 
 exports.generateStatementData = generateStatementData;
